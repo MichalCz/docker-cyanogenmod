@@ -28,8 +28,8 @@ shift
 done
 
 # Create shared folders
-mkdir -p $SOURCE
-mkdir -p $CCACHE
+[[ -e "$SOURCE" ]] || mkdir -p $SOURCE
+[[ -e "$CCACHE" ]] || mkdir -p $CCACHE
 
 # Build image if needed
 IMAGE_EXISTS=$(docker images $REPOSITORY)
@@ -64,7 +64,7 @@ if [[ $IS_RUNNING == "true" ]]; then
 elif [[ $IS_RUNNING == "false" ]]; then
 	docker start -i $CONTAINER
 else
-	docker run -v $SOURCE:$CONTAINER_HOME/android -v $CCACHE:/srv/ccache -i -t --name $CONTAINER $REPOSITORY:$TAG
+	docker run --privileged -v $SOURCE:$CONTAINER_HOME/android -v $CCACHE:/srv/ccache -v /dev/bus/usb:/dev/bus/usb -i -t --name $CONTAINER $REPOSITORY:$TAG
 fi
 
 exit $?
