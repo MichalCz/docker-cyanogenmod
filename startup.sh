@@ -10,4 +10,4 @@ export USER="cmbuild"
 
 # Launch screen session
 #/bin/bash --login
-screen -s /bin/bash
+script -qc 'screen -s /bin/bash' /dev/null
